@@ -1,0 +1,7 @@
+
+.answer_container
+  p 
+    = answer.body
+    - if current_user.present?
+        - if answer_author?(answer)
+          = link_to t('Delete'), answer_path(answer), method: :delete, data: { confirm: 'Are you sure' }
