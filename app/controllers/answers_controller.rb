@@ -1,22 +1,20 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, only: %i[create]
   before_action :find_question, only: %i[new create]
   before_action :find_answer, only: %i[destroy]
-  before_action :authenticate_user!, only: %i[create]
-
-  def show
-  end
-
-  def new
-  end
-
+  
   def create
     @answer = @question.answers.new(answer_params)
-    @answer.user_id = current_user.id
-    @answer.save
-    redirect_to question_url(@question)
+    @answer.user = current_user
+    if @answer.save
+      redirect_to question_url(@question)
+    else
+      render "questions/show"
+    end
   end
 
   def destroy
+    current_user.present? && current_user.author_of?(@answer.question)
     @answer.destroy
     redirect_to question_path(@answer.question)
   end
