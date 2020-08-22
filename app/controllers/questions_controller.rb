@@ -38,9 +38,12 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    current_user.present? && current_user.author_of?(@question)
-    @question.destroy
-    redirect_to root_path
+    if current_user&.author_of?(@question)
+      @question.destroy
+      redirect_to root_path, notice: 'Your question successfully deleted.'
+    else
+      redirect_to root_path, notice: 'You are not permitted.'
+    end
   end
 
   private

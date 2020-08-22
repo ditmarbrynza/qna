@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: %i[create]
+  before_action :authenticate_user!, only: %i[create destroy]
   before_action :find_question, only: %i[new create]
   before_action :find_answer, only: %i[destroy]
   
@@ -7,16 +7,19 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params)
     @answer.user = current_user
     if @answer.save
-      redirect_to question_url(@question)
+      redirect_to question_path(@question), notice: 'Your answer successfully created.'
     else
-      render "questions/show"
+      render template: 'questions/show'
     end
   end
 
   def destroy
-    current_user.present? && current_user.author_of?(@answer.question)
-    @answer.destroy
-    redirect_to question_path(@answer.question)
+    if current_user&.author_of?(@answer)
+      @answer.destroy
+      redirect_to question_path(@answer.question), notice: 'Your answer successfully deleted.'
+    else
+      redirect_to question_path(@answer.question), notice: 'You are not permitted.'
+    end
   end
 
   private
