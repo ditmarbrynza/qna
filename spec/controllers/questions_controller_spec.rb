@@ -94,13 +94,13 @@ RSpec.describe QuestionsController, type: :controller do
 
       context 'with invalid attributes' do
         it 'does not save the question' do
-          expect { post :create, params: { question: attributes_for(:question, :invalid), user_id: user }
+          expect { post :create, params: { question: attributes_for(:question, :invalid), user_id: user }, format: :js
                  }.to_not change(Question, :count)
         end
 
-        it 're-renders new view' do
-          post :create, params: { question: attributes_for(:question, :invalid), user_id: user }
-          expect(response).to render_template :new
+        it 'render templete create' do
+          post :create, params: { question: attributes_for(:question, :invalid), user_id: user }, format: :js
+          expect(response).to render_template :create
         end
       end
     end
