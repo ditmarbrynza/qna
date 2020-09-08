@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: %i[create destroy]
+  before_action :authenticate_user!, only: %i[create destroy update]
   before_action :find_question, only: %i[new create]
-  before_action :find_answer, only: %i[destroy]
+  before_action :find_answer, only: %i[update destroy]
   
   def create
     @answer = @question.answers.create(answer_params)
@@ -10,14 +10,16 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer = Answer.find(params[:id])
-    @answer.update(answer_params)
+    if current_user&.author_of?(@answer)
+      @answer.update(answer_params)
+    else
+      redirect_to question_path(@answer.question), notice: 'You are not permitted.'
+    end
   end
 
   def destroy
     if current_user&.author_of?(@answer)
       @answer.destroy
-      redirect_to question_path(@answer.question), notice: 'Your answer successfully deleted.'
     else
       redirect_to question_path(@answer.question), notice: 'You are not permitted.'
     end
