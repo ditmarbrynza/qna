@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   devise_for :users
   
   resources :questions, except: :index, shallow: true do
-    resources :answers, except: :index, shallow: true
+    resources :answers, except: :index, shallow: true do
+      member do
+        patch :best
+      end
+    end
   end
 end

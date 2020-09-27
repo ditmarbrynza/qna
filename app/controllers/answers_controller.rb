@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: %i[create destroy update]
   before_action :find_question, only: %i[new create]
-  before_action :find_answer, only: %i[update destroy]
+  before_action :find_answer, only: %i[update destroy best]
   
   def create
     @answer = @question.answers.create(answer_params)
@@ -23,6 +23,11 @@ class AnswersController < ApplicationController
     else
       redirect_to question_path(@answer.question), notice: 'You are not permitted.'
     end
+  end
+
+  def best
+    @question = @answer.question
+    @answer.become_the_best if current_user.author_of?(@question)
   end
 
   private
