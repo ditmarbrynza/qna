@@ -5,21 +5,21 @@ RSpec.describe Answer, type: :model do
   it { should belong_to :user }
   it { should validate_presence_of :body }
 
-  describe 'become_the_best' do
+  describe 'best!' do
     let!(:user) { create(:user) }
     let!(:question) { create(:question, user: user) }
     let!(:answer) { create(:answer, question: question, user: user) }
 
     it 'can select the best answer' do
-      expect { answer.become_the_best }.to change(answer, :best).to(true)
+      expect { answer.best! }.to change(answer, :best).to(true)
     end
 
     context 'can be only one best answer in question' do
       let!(:other_answer) { create(:answer, question: question, user: user) }
 
       before do
-        other_answer.become_the_best
-        answer.become_the_best
+        other_answer.best!
+        answer.best!
       end
 
       it { expect(answer.reload).to be_best }

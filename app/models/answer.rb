@@ -6,7 +6,7 @@ class Answer < ApplicationRecord
   
   validates :body,  presence: true
 
-  def become_the_best
+  def best!
     Answer.transaction do
       Answer.where(question_id: question_id, best: true).update_all(best: false)
       update!(best: true)

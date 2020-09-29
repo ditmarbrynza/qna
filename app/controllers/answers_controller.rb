@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: %i[create destroy update]
+  before_action :authenticate_user!, only: %i[create destroy update best]
   before_action :find_question, only: %i[new create]
   before_action :find_answer, only: %i[update destroy best]
   
@@ -27,7 +27,7 @@ class AnswersController < ApplicationController
 
   def best
     @question = @answer.question
-    @answer.become_the_best if current_user.author_of?(@question)
+    @answer.best! if current_user.author_of?(@question)
   end
 
   private

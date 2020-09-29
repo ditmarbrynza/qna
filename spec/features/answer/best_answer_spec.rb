@@ -20,14 +20,6 @@ feature 'User can select the best answer' do
         expect(page).to_not have_link 'The Best Answer'
       end
     end
-
-    scenario 'select other answer as the best answer' do
-      within ".answer-id-#{answers.last.id}" do
-        click_on 'The Best Answer'
-        expect(page).to have_content answers.last.body
-        expect(page).to_not have_link 'The Best Answer'
-      end
-    end
   end
 
   scenario 'can not select the best answer in other questions' do
@@ -37,7 +29,6 @@ feature 'User can select the best answer' do
       expect(page).to_not have_link 'The Best Answer'
     end
   end
-
 
   describe 'Unauthenticated user' do
     scenario 'can not select the best answer' do
