@@ -8,7 +8,7 @@ feature 'User can create question', %q{
 
   given(:user) { create(:user) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
 
     background do
       sign_in(user)
@@ -29,7 +29,6 @@ feature 'User can create question', %q{
 
     scenario 'asks a question with errors' do
       click_on 'Ask'
-
       expect(page).to have_content "Title can't be blank"
     end
   end

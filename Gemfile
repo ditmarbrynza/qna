@@ -30,6 +30,7 @@ gem 'jbuilder', '~> 2.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'slim-rails'
+gem 'jquery-rails'
 
 gem 'devise'
 
@@ -57,9 +58,9 @@ group :test do
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'rails-controller-testing'
   gem 'shoulda-matchers'
-  gem 'webdrivers'
   gem 'launchy'
   gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
+  gem 'webdrivers', '~> 4.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
