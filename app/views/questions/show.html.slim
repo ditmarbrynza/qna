@@ -16,9 +16,11 @@
         = f.text_area :body
         = f.submit 'Save'
 
-  - if @question.file.attached?
-    p
-      = link_to @question.file.filename.to_s, url_for(@question.file)
+  - if @question.files.attached?
+    - @question.files.each do |file|
+      p
+        = link_to file.filename.to_s, url_for(file)
+        
 .answers
   = render @question.answers
 = render 'answers/form'
