@@ -70,9 +70,18 @@ feature 'User can edit his question' do
       end
 
       scenario 'delete attachments' do
+        within '.question' do
+          first('.attachment').click_on 'Delete file'
+          expect(page).to_not have_link 'rails_helper.rb'
+          expect(page).to have_link 'spec_helper.rb'
+        end
       end
 
-      scenario 'do not add attachments to not own question' do
+      scenario "can't delete other user's attachments" do
+        visit question_path(other_question)
+        within '.question' do
+          expect(page).to_not have_link 'Delete file'
+        end
       end
     end
   end

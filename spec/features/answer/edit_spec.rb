@@ -2,9 +2,11 @@ require 'rails_helper'
 
 feature 'user can edit his answer' do
   given!(:user) { create(:user) }
-  given!(:question) { create(:question, user: user) }
-  given!(:answer) { create(:answer, user: user, question: question) }
   given!(:other_user) { create(:user) }
+  given!(:question) { create(:question, user: user) }
+  given!(:other_question) { create(:question, user: other_user) }
+  given!(:answer) { create(:answer, user: user, question: question) }
+  given!(:other_answer) { create(:answer, user: other_user, question: other_question) }
 
   describe 'Authenticated user', js: true do
     background do
@@ -33,31 +35,43 @@ feature 'user can edit his answer' do
       end
     end
 
+    scenario 'Other user can not edit answer' do
+      visit question_path(other_question)
+      within '.answers' do
+        expect(page).to_not have_link "Edit"
+      end
+    end
+
     context 'attachments' do
-      scenario 'add attachments' do
+      background do
         within '.answers' do
           click_on "Edit"
           attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
           click_on 'Save'
-  
+        end
+      end
+      
+      scenario 'add attachments' do
+        within '.answers' do
           expect(page).to have_link 'rails_helper.rb'
           expect(page).to have_link 'spec_helper.rb'
         end
       end
 
       scenario 'delete attachments' do
+        within '.answers' do
+          first('.attachment').click_on 'Delete file'
+          expect(page).to_not have_link 'rails_helper.rb'
+          expect(page).to have_link 'spec_helper.rb'
+        end
       end
 
-      scenario 'do not add attachments to not own question' do
+      scenario "can't delete other user's attachments" do
+        visit question_path(other_question)
+        within '.question' do
+          expect(page).to_not have_link 'Delete file'
+        end
       end
-    end
-  end
-
-  scenario 'Other user can not edit answer' do
-    sign_in other_user
-    visit question_path(question)
-    within '.answers' do
-      expect(page).to_not have_link "Edit"
     end
   end
 
