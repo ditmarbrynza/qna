@@ -1,2 +1,28 @@
 .question
-  = link_to question.title, question_path(question), class: "question_title", data: { question_id: question.id }
+  .question-error
+  .q-title
+    = @question.title
+  .q-body
+    = @question.body
+  - if current_user&.author_of?(@question)
+    .question-controls
+      = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: @question.id }
+      = link_to 'Delete question', question_path(@question), method: :delete
+
+      = form_with model: @question, class: 'hidden', html: { id: "edit-question-#{@question.id}" } do |f|
+        p
+          = f.label :title, 'Title'
+          = f.text_field :title
+        p  
+          = f.label :body, 'Body'
+          = f.text_area :body
+        p
+          = f.label :files
+          = f.file_field :files, multiple: true
+        = f.submit 'Save'
+
+  - if @question.files.attached?
+    - @question.files.each do |file|
+        p.attachment id="file-#{file.id}"
+          = link_to file.filename.to_s, url_for(file)
+          = link_to 'Delete file', file_path(file), method: :delete, remote: true
