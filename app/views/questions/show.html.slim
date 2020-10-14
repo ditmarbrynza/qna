@@ -1,6 +1,13 @@
 .question-container
   = render @question
-        
+  
+  .link
+    p Links:
+    ul
+      - @question.links.each do |link|
+        li
+          = link_to link.name, link.url
+
 .answers
   = render @question.answers
 = render 'answers/form'
