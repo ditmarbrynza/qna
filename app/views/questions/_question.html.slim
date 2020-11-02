@@ -4,6 +4,10 @@
     = @question.title
   .q-body
     = @question.body
+
+  - if @question.award.present?
+    h3 Award:
+    = image_tag url_for(@question.award.image)
   
   .links
     p Links:
