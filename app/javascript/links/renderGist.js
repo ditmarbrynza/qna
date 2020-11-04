@@ -39,7 +39,7 @@ function gistData(gist_id, domLink) {
   );
 }
 
-document.addEventListener('turbolinks:load', function() {
+function findGistLinks() {
   let linkTags = document.querySelectorAll('.link a')
   linkTags.forEach((domLink) => {
     let link = domLink.href
@@ -49,4 +49,12 @@ document.addEventListener('turbolinks:load', function() {
       gistData(gist_id, domLink)
     }
   })
+}
+
+document.addEventListener('gist:updated', function() {
+  findGistLinks()
+});
+
+document.addEventListener('turbolinks:load', function() {
+  findGistLinks()
 });
