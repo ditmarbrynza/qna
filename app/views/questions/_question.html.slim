@@ -14,17 +14,9 @@
     ul
       - @question.links.each do |link|
           div id="link-#{link.id}"
-            - if link.gist_url?
-              - link.gist_url.each do |file|
-                p 
-                  = file[:name]
-                code 
-                  = file[:content]
-            - else
-              p 
-                = link_to link.name, link.url
-            p
-              = link_to 'Delete link', link_path(link), method: :delete, remote: true
+            .link
+              = link_to link.name, link.url
+            = link_to 'Delete link', link_path(link), method: :delete, remote: true
 
   - if current_user&.author_of?(@question)
     .question-controls
