@@ -4,6 +4,20 @@
     = @question.title
   .q-body
     = @question.body
+
+  - if @question.award.present?
+    h3 Award:
+    = image_tag url_for(@question.award.image)
+  
+  .links
+    p Links:
+    ul
+      - @question.links.each do |link|
+          div id="link-#{link.id}"
+            .link
+              = link_to link.name, link.url
+            = link_to 'Delete link', link_path(link), method: :delete, remote: true
+
   - if current_user&.author_of?(@question)
     .question-controls
       = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: @question.id }
@@ -19,6 +33,13 @@
         p
           = f.label :files
           = f.file_field :files, multiple: true
+        p
+          = f.fields_for :links do |link|
+            
+          .links
+            = link_to_add_association 'add link', f, :links,
+              partial: 'links/link_fields'
+
         = f.submit 'Save'
 
   - if @question.files.attached?
