@@ -1,120 +1,35 @@
-require:
-  - rubocop-performance
-  - rubocop-rails
-
+# ./.rubocop.yml
 AllCops:
-  Exclude:
-    - 'db/**/*'
-    - 'bin/**/*'
-    - 'Gemfile'
-    - 'test/**/*'
-    - 'node_modules/**/*'
-    - 'gems/**/*'
   TargetRubyVersion: 2.6
+  Exclude:
+    - bin/*
+    - db/schema.rb
+    - node_modules/**/*
+    - vendor/bundle/**/*
 
-Performance:
-  Enabled: true
+Metrics/LineLength:
+  Max: 100
+  Exclude:
+    - ./db/seeds.rb
+    - ./config/initializers/*.rb
 
-Performance/Detect:
-  Enabled: true
-  SafeAutoCorrect: false
+Metrics/BlockLength:
+  Exclude:
+    - ./spec/**/*_spec.rb
+
+Metrics/MethodLength:
+  Exclude:
+    - ./db/migrate/*.rb
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - ./spec/**/*_spec.rb
 
 Style/Documentation:
   Enabled: false
 
-Layout/DotPosition:
-  EnforcedStyle: trailing
-
-Layout/CaseIndentation:
+Bundler/OrderedGems:
   Enabled: false
-
-Style/FrozenStringLiteralComment:
-  Enabled: false
-
-Metrics/LineLength:
-  Max: 100
-
-Style/TrailingCommaInArrayLiteral:
-  Enabled: false
-
-Performance/RedundantMerge:
-  Enabled: false
-
-Metrics/ClassLength:
-  Max: 200
 
 Metrics/AbcSize:
-  Max: 60
-
-Metrics/MethodLength:
-  Max: 25
-
-Metrics/BlockLength:
-  Exclude:
-    - 'Rakefile'
-    - '**/*.rake'
-    - 'spec/**/*.rb'
-    - 'app/core/container.rb'
-
-Layout/EndAlignment:
-  EnforcedStyleAlignWith: variable
-
-Style/StringLiterals:
-  Enabled: false
-
-Style/IfUnlessModifier:
-  Enabled: false
-
-Layout/HashAlignment:
-  Enabled: false
-
-Layout/TrailingEmptyLines:
-  Enabled: false
-
-Style/GuardClause:
-  Enabled: false
-
-Layout/MultilineMethodCallIndentation:
-  EnforcedStyle: indented
-
-Style/SymbolArray:
-  Enabled: false
-
-Style/WordArray:
-  Enabled: false
-
-Layout/MultilineOperationIndentation:
-  EnforcedStyle: indented
-
-Layout/ParameterAlignment:
-  Enabled: false
-
-Layout/ArgumentAlignment:
-  EnforcedStyle: with_fixed_indentation
-
-Layout/EmptyLineAfterGuardClause:
-  Enabled: false
-
-Layout/EmptyLinesAroundBlockBody:
-  Enabled: false
-
-Performance/Casecmp:
-  Enabled: false
-
-Layout/ArrayAlignment:
-  Enabled: false
-
-Style/BlockComments:
-  Enabled: false
-
-Rails/SkipsModelValidations:
-  Enabled: false
-
-Layout/TrailingWhitespace:
-  Enabled: false
-
-Layout/EmptyLinesAroundClassBody:
-  Enabled: false
-
-Naming/MemoizedInstanceVariableName:
-  Enabled: false
+  Max: 20
