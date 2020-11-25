@@ -29,9 +29,9 @@ gem 'jbuilder', '~> 2.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
-gem 'slim-rails'
+gem 'cocoon'
 gem 'jquery-rails'
-gem "cocoon"
+gem 'slim-rails'
 
 gem 'devise'
 
@@ -39,8 +39,8 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
-  gem 'rspec-rails', '~> 4.0.0.beta'
   gem 'pry', '~> 0.12.2'
+  gem 'rspec-rails', '~> 4.0.0.beta'
 end
 
 group :development do
@@ -57,10 +57,10 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
+  gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
+  gem 'launchy'
   gem 'rails-controller-testing'
   gem 'shoulda-matchers'
-  gem 'launchy'
-  gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
   gem 'webdrivers', '~> 4.0'
 end
 

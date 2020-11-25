@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'User can add award to his question' do
-
   describe 'Authenticated user asks question and', js: true do
     given(:user) { create(:user) }
     given(:award_image) { "#{Rails.root}/spec/fixtures/award.png" }

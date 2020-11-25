@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'user can view all questions' do
-
   given(:user) { create(:user) }
   given!(:questions) { create_list(:question, 2) }
 

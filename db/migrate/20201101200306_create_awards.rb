@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateAwards < ActiveRecord::Migration[6.0]
   def change
     create_table :awards do |t|
@@ -5,7 +7,7 @@ class CreateAwards < ActiveRecord::Migration[6.0]
       t.belongs_to :question, foreign_key: true
       t.belongs_to :answer, foreign_key: true
 
-      t.timestamps 
+      t.timestamps
     end
   end
 end

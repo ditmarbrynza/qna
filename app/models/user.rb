@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   has_many :questions
   has_many :answers
@@ -8,6 +10,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   def author_of?(subject)
-    self.id == subject.user_id
+    id == subject.user_id
   end
 end

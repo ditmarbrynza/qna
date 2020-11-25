@@ -8,8 +8,8 @@ class Answer < ApplicationRecord
   has_one :award
 
   accepts_nested_attributes_for :links, reject_if: :all_blank
-  
-  validates :body,  presence: true
+
+  validates :body, presence: true
 
   def set_the_best
     Answer.transaction do

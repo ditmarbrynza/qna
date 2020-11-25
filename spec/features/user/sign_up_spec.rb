@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require 'faker'
 
 feature 'User can sign up' do
-
-  given(:user) { create(:user) } 
+  given(:user) { create(:user) }
   background { visit new_user_registration_path }
 
   scenario 'New user tries to sign up' do

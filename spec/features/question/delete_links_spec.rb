@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'User can delete his links from question' do
@@ -5,7 +7,6 @@ feature 'User can delete his links from question' do
   given!(:question) { create(:question, user: user) }
   given!(:link) { create(:link, name: 'Google', url: 'https://google.com/', linkable: question) }
 
-  
   describe 'Authenticated user', js: true do
     scenario 'user can delete link' do
       sign_in(user)

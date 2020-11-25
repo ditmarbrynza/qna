@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'User can log out' do
-
   given(:user) { create(:user) }
   background { visit new_user_session_path }
 
@@ -12,5 +13,4 @@ feature 'User can log out' do
     click_on 'Log out'
     expect(page).to have_content 'Signed out successfully.'
   end
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'User can edit his question' do
@@ -14,14 +16,13 @@ feature 'User can edit his question' do
 
     context 'with valid attributes' do
       scenario 'can edit his question' do
-
         within '.question' do
           click_on 'Edit'
           fill_in 'Title', with: '123'
           fill_in 'Body', with: '456'
           click_on 'Save'
         end
-        
+
         expect(page).to_not have_content question.title
         expect(page).to_not have_content question.body
         expect(page).to have_content '123'
@@ -30,22 +31,21 @@ feature 'User can edit his question' do
 
       scenario "can't edit other user's question" do
         visit question_path(other_question)
-        
-        expect(page).to_not have_link "Edit"
-        expect(page).to_not have_selector ".edit-question-link"
+
+        expect(page).to_not have_link 'Edit'
+        expect(page).to_not have_selector '.edit-question-link'
       end
     end
-    
+
     context 'with invalid attributes' do
       scenario "can't edit his question" do
-
         within '.question' do
           click_on 'Edit'
           fill_in 'Title', with: ''
           fill_in 'Body', with: ''
           click_on 'Save'
         end
-        
+
         expect(page).to have_content question.title
         expect(page).to have_content question.body
         expect(page).to have_content "Title can't be blank"
@@ -89,7 +89,7 @@ feature 'User can edit his question' do
   describe 'Unauthenticated user' do
     scenario 'can not edit questions' do
       visit question_path(question)
-      expect(page).to_not have_link "Edit"
+      expect(page).to_not have_link 'Edit'
     end
   end
 end

@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'User can delete his answer' do
-
   given(:user) { create(:user) }
   given(:second_user) { create(:user) }
   given!(:question) { create(:question, user: user) }
@@ -15,9 +16,9 @@ feature 'User can delete his answer' do
 
       within '.answers' do
         expect(page).to have_content answer.body
-        
+
         click_on 'Delete answer'
-        
+
         expect(page).to_not have_content answer.body
       end
     end

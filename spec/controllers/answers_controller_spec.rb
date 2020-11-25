@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
@@ -49,7 +51,7 @@ RSpec.describe AnswersController, type: :controller do
 
       context "user's answer" do
         let!(:answer) { create(:answer, question: question, user: user) }
-        
+
         it 'deletes the answer' do
           expect { delete :destroy, params: { id: answer, question_id: question }, format: :js }.to change(Answer, :count).by(-1)
         end
@@ -60,7 +62,7 @@ RSpec.describe AnswersController, type: :controller do
         end
       end
 
-      context "others answers" do
+      context 'others answers' do
         let!(:answer) { create(:answer, question: question, user: create(:user)) }
 
         it 'could not deletes the answer' do
@@ -89,7 +91,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
-   
     let!(:answer) { create(:answer, question: question, user: user) }
 
     context 'Authenticated user' do
@@ -149,13 +150,13 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'Unauthenticated user' do
-      context 'with valid attributes' do 
+      context 'with valid attributes' do
         it 'does not change attributes' do
           expect do
             patch :update, params: { id: answer, answer: answer }, format: :js
           end.to_not change(answer, :body)
         end
-  
+
         it 'redirect to sign in page' do
           patch :update, params: { id: answer, answer: answer }
           expect(response).to redirect_to new_user_session_path
@@ -168,7 +169,7 @@ RSpec.describe AnswersController, type: :controller do
             patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
           end.to_not change(answer, :body)
         end
-  
+
         it 'redirect to sign in page' do
           patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }
           expect(response).to redirect_to new_user_session_path

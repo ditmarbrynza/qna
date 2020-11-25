@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Question < ApplicationRecord
   has_many :answers, -> { order(best: :desc) }, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
@@ -7,6 +9,6 @@ class Question < ApplicationRecord
   has_many_attached :files
 
   accepts_nested_attributes_for :links, :award, reject_if: :all_blank, allow_destroy: true
-  
+
   validates :title, :body, presence: true
 end

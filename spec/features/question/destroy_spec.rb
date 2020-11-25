@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'User can delete his question' do
-  
   given(:user) { create(:user) }
   given(:questions) { create_list(:question, 2) }
 
@@ -31,6 +32,4 @@ feature 'User can delete his question' do
       expect(page).to_not have_content 'Delete question'
     end
   end
-
-
 end

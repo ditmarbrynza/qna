@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe AwardsController, type: :controller do 
+RSpec.describe AwardsController, type: :controller do
   let(:user) { create :user }
   let(:question) { create :question, user: user }
   let(:answer) { create :answer, question: question, user: user }
@@ -8,13 +10,13 @@ RSpec.describe AwardsController, type: :controller do
 
   describe 'GET #index' do
     context 'authenticated user' do
-      before do 
+      before do
         login(user)
         get :index
       end
 
       it 'populates an array of all awards' do
-        expect(assigns(:awards)).to match_array(user.awards)  
+        expect(assigns(:awards)).to match_array(user.awards)
       end
 
       it 'renders index view' do

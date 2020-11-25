@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'User can write answer' do
@@ -21,7 +23,7 @@ feature 'User can write answer' do
       click_on 'Answer'
       expect(page).to have_content "Body can't be blank"
     end
-    
+
     scenario 'asks a question with attached file' do
       fill_in 'Body', with: 'written answer'
 

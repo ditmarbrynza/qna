@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
@@ -73,8 +75,9 @@ RSpec.describe QuestionsController, type: :controller do
 
       context 'with valid attributes' do
         it 'saves a new question in the database' do
-          expect { post :create, params: { question: attributes_for(:question), user_id: user } 
-                 }.to change(Question, :count).by(1)
+          expect do
+            post :create, params: { question: attributes_for(:question), user_id: user }
+          end.to change(Question, :count).by(1)
         end
 
         it 'redirects to show view' do
@@ -85,8 +88,9 @@ RSpec.describe QuestionsController, type: :controller do
 
       context 'with invalid attributes' do
         it 'does not save the question' do
-          expect { post :create, params: { question: attributes_for(:question, :invalid), user_id: user }, format: :js
-                 }.to_not change(Question, :count)
+          expect do
+            post :create, params: { question: attributes_for(:question, :invalid), user_id: user }, format: :js
+          end.to_not change(Question, :count)
         end
 
         it 'render templete create' do
@@ -98,8 +102,9 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'Unauthenticated user' do
       it 'does not save the question' do
-        expect { post :create, params: { question: attributes_for(:question), user_id: user }
-               }.to_not change(Question, :count)
+        expect do
+          post :create, params: { question: attributes_for(:question), user_id: user }
+        end.to_not change(Question, :count)
       end
 
       it 'redirect to sign in page' do
@@ -120,7 +125,7 @@ RSpec.describe QuestionsController, type: :controller do
         end
 
         it 'changes question attributes' do
-          patch :update, params: { id: question, question: { title: 'new title', body: 'new body'}, user_id: user }, format: :js
+          patch :update, params: { id: question, question: { title: 'new title', body: 'new body' }, user_id: user }, format: :js
           question.reload
 
           expect(question.title).to eq 'new title'
@@ -150,7 +155,7 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'Unauthenticated user' do
       it 'not changes question attributes' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body'}, user_id: user }, format: :js
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' }, user_id: user }, format: :js
         question.reload
 
         expect(question.title).to eq question.title

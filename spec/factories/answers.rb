@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :answer do
     user
     question
-    body { "answer body" }
+    body { 'answer body' }
 
     trait :invalid do
       body { nil }
