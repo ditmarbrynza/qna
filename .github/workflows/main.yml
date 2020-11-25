@@ -1,42 +1,36 @@
 env:
-  RUBY_VERSION: 2.6.x
-  RAILS_ENV: test  
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: postgres
-  POSTGRES_DB: tn_qna_test
-  RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+  RUBY_VERSION: .ruby-version
+  POSTGRESQL_USERNAME: postgres
+  POSTGRESQL_PASSWORD: postgres
+  POSTGRES_DB: postgres
 
 name: Rails tests
-
 on: [push,pull_request]
-
 jobs:
+  rubocop-test:
+    name: Rubocop
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+      - name: Install Rubocop
+        run: gem install rubocop -v 0.85.0
+      - name: Check code
+        run: rubocop
   rspec-test:
-
-    name: RSpec
+    name: Rspec
+    needs: rubocop-test
     runs-on: ubuntu-latest
     services:
       postgres:
         image: postgres:latest
-        env:
-          POSTGRES_DB: tn_qna_test
-          POSTGRES_HOST: localhost
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
         ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-      redis:
-        image: redis
-        ports:
-          - 6379:6379
-        options: --entrypoint redis-server
+        - 5432:5432
         env:
-          REDIS_HOST: localhost
-          REDIS_PORT: 6379
-
+          POSTGRES_USER: ${{ env.POSTGRESQL_USERNAME }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRESQL_PASSWORD }}
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-ruby@v1
@@ -44,40 +38,19 @@ jobs:
           ruby-version: ${{ env.RUBY_VERSION }}
       - name: Install postgres client
         run: sudo apt-get install libpq-dev
-
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 10.13.0
-
-      - name: Install packages
-        run: |
-          yarn install --pure-lockfile
       - name: Install dependencies
         run: |
           gem install bundler
           bundler install
       - name: Create database
         run: |
-          cp config/database.yml.github-actions config/database.yml
           bundler exec rails db:create RAILS_ENV=test
           bundler exec rails db:migrate RAILS_ENV=test
-        env:
-          RAILS_ENV: test
-          POSTGRES_DB: tn_qna_test
-          POSTGRES_HOST: localhost
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
-
       - name: Run tests
-        run: bundler exec rake
-        env:
-          RAILS_ENV: test
-          POSTGRES_DB: tn_qna_test
-          POSTGRES_HOST: localhost
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
-          REDIS_HOST: localhost
-          REDIS_PORT: 6379
+        run: bundle exec rspec
+      - name: Upload coverage results
+        uses: actions/upload-artifact@master
+        if: always()
+        with:
+          name: coverage report
+          path: coverage
