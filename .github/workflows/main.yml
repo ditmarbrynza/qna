@@ -7,18 +7,18 @@ env:
 name: Rails tests
 on: [push,pull_request]
 jobs:
-  rubocop-test:
-    name: Rubocop
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ env.RUBY_VERSION }}
-      - name: Install Rubocop
-        run: gem install rubocop -v 0.85.0
-      - name: Check code
-        run: rubocop
+  # rubocop-test:
+  #   name: Rubocop
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - uses: ruby/setup-ruby@v1
+  #       with:
+  #         ruby-version: ${{ env.RUBY_VERSION }}
+  #     - name: Install Rubocop
+  #       run: gem install rubocop -v 0.85.0
+  #     - name: Check code
+  #       run: rubocop
   rspec-test:
     name: Rspec
     needs: rubocop-test
