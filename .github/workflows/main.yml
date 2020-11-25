@@ -1,5 +1,5 @@
 env:
-  RUBY_VERSION: 2.6.3
+  RUBY_VERSION: [2.5, 2.6, 2.7, head, debug, jruby, jruby-head, truffleruby, truffleruby-head]
   POSTGRESQL_USERNAME: postgres
   POSTGRESQL_PASSWORD: postgres
   POSTGRES_DB: postgres
@@ -23,6 +23,11 @@ jobs:
     name: Rspec
     needs: rubocop-test
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu, macos]
+        ruby: [2.5, 2.6, 2.7, head, debug, jruby, jruby-head, truffleruby, truffleruby-head]
     services:
       postgres:
         image: postgres:latest
@@ -35,7 +40,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-ruby@v1
         with:
-          ruby-version: ${{ env.RUBY_VERSION }}
+          ruby-version: ${{ matrix.ruby }}
       - name: Install postgres client
         run: sudo apt-get install libpq-dev
       - name: Install dependencies
