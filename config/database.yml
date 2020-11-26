@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  # https://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV.fetch("POSTGRESQL_HOST") { "localhost" } %>
+  port: <%= ENV.fetch("POSTGRESQL_PORT") { "5432" } %>
+  username: <%= ENV.fetch("POSTGRESQL_USERNAME") { "postgres" } %>
+  password: <%= ENV.fetch("POSTGRESQL_PASSWORD") { "postgres" } %>
+
+development:
+  <<: *default
+  database: tn_qna_development
+
+test:
+  <<: *default
+  database: tn_qna_test
