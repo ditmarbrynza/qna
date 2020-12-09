@@ -1,24 +1,15 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, only: %i[create destroy update best]
+  include Voted
+  before_action :authenticate_user!, only: %i[create destroy update best up down]
   before_action :find_question, only: %i[new create]
   before_action :find_answer, only: %i[update destroy best]
 
   def create
-    @answer = @question.answers.new(answer_params)
+    @answer = @question.answers.create(answer_params)
     @answer.user = current_user
-
-    respond_to do |format|
-      if @answer.save
-        format.html { render @answer }
-      else
-        format.html do
-          render partial: 'shared/errors', locals: { resource: @answer },
-                 status: :unprocessable_entity
-        end
-      end
-    end
+    @answer.save
   end
 
   def update

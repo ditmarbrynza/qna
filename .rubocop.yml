@@ -16,11 +16,13 @@ Metrics/LineLength:
 Metrics/BlockLength:
   Exclude:
     - ./spec/**/*_spec.rb
+    - ./spec/**/*.rb
 
 Metrics/MethodLength:
+  Max: 30
   Exclude:
     - ./db/migrate/*.rb
-
+    
 Lint/AmbiguousBlockAssociation:
   Exclude:
     - ./spec/**/*_spec.rb

@@ -1,4 +1,4 @@
-.question
+.question class=["question-id-#{@question.id}"]
   .question-error
   .q-title
     = @question.title
@@ -8,7 +8,32 @@
   - if @question.award.present?
     h3 Award:
     = image_tag url_for(@question.award.image)
-  
+  .votes
+    .wrapper
+      .like
+        - if user_signed_in? && !current_user&.author_of?(@question)
+          = link_to up_question_path(@question), class: 'vote vote-up', method: :post, remote: true do
+            span
+              | like
+            - if liked?(current_user, @question)
+              i.fa.fa-thumbs-up class="fa-lg"
+            - else
+              i.fa.fa-thumbs-o-up class="fa-lg"
+        - else 
+          i.fa.fa-thumbs-o-up class="fa-lg"
+      .rating 
+        = @question.rating
+      .dislike
+        - if user_signed_in? && !current_user&.author_of?(@question)
+          = link_to down_question_path(@question), class: 'vote vote-down', method: :post, remote: true do
+            span
+              | dislike
+            - if disliked?(current_user, @question)
+              i.fa.fa-thumbs-down class="fa-lg"
+            - else
+              i.fa.fa-thumbs-o-down class="fa-lg"
+        - else 
+          i.fa.fa-thumbs-o-down class="fa-lg"
   .links
     p Links:
     ul
