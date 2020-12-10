@@ -1,26 +1,6 @@
 .votes
   .wrapper
-    .like
-      - if user_signed_in? && !current_user&.author_of?(votable) 
-        = link_to send("up_#{votable.class.to_s.downcase}_path", votable), class: 'vote vote-up', method: :post, remote: true do
-          span
-            | like
-          - if liked?(current_user, votable)
-            i.fa.fa-thumbs-up class="fa-lg"
-          - else
-            i.fa.fa-thumbs-o-up class="fa-lg"
-      - else 
-        i.fa.fa-thumbs-o-up class="fa-lg"
-    .rating 
-      = votable.rating
-    .dislike
-      - if user_signed_in? && !current_user&.author_of?(votable)
-        = link_to send("down_#{votable.class.to_s.downcase}_path", votable), class: 'vote vote-down', method: :post, remote: true do
-          span
-            | dislike
-          - if disliked?(current_user, votable)
-            i.fa.fa-thumbs-down class="fa-lg"
-          - else
-            i.fa.fa-thumbs-o-down class="fa-lg"
-      - else 
-        i.fa.fa-thumbs-o-down class="fa-lg"
+    - if user_signed_in? && !current_user&.author_of?(votable) 
+      = render partial: 'votes/clickable_vote', locals: { votable: votable }
+    - else
+      = render partial: 'votes/not_clickable_vote', locals: { votable: votable }
