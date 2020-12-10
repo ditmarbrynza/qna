@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module AnswerHelper
+module VotesHelper
   LIKE = 1
   LIKED = 1
   DISLIKE = -1
