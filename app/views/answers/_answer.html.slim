@@ -2,32 +2,8 @@
   p 
     = answer.body
 
-  .votes
-    .wrapper
-      .like
-        - if user_signed_in? && !current_user&.author_of?(answer)
-          = link_to up_answer_path(answer), class: 'vote vote-up', method: :post, remote: true do
-            span
-              | like
-            - if liked?(current_user, answer)
-              i.fa.fa-thumbs-up class="fa-lg"
-            - else
-              i.fa.fa-thumbs-o-up class="fa-lg"
-        - else 
-          i.fa.fa-thumbs-o-up class="fa-lg"
-      .rating 
-        = answer.rating
-      .dislike
-        - if user_signed_in? && !current_user&.author_of?(answer)
-          = link_to down_answer_path(answer), class: 'vote vote-down', method: :post, remote: true do
-            span
-              | dislike
-            - if disliked?(current_user, answer)
-              i.fa.fa-thumbs-down class="fa-lg"
-            - else
-              i.fa.fa-thumbs-o-down class="fa-lg"
-        - else 
-          i.fa.fa-thumbs-o-down class="fa-lg"
+  = render partial: 'votes/vote', locals: { votable: answer }
+
   .links
     p Links:
     ul
