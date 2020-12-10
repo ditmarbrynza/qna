@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module AnswerHelper
+  LIKE = 1
   LIKED = 1
+  DISLIKE = -1
   DISLIKED = -1
 
   def how_voted(user, votable)
@@ -16,17 +18,11 @@ module AnswerHelper
     end
   end
 
-  def liked?(user, votable)
-    vote = Vote.find_by(user: user, votable: votable)
-    return unless vote.present?
-
-    vote.value == LIKED
+  def liked?(vote)
+    vote == LIKED
   end
 
-  def disliked?(user, votable)
-    vote = Vote.find_by(user: user, votable: votable)
-    return unless vote.present?
-
-    vote.value == DISLIKED
+  def disliked?(vote)
+    vote == DISLIKED
   end
 end
