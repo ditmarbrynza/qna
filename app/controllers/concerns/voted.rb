@@ -3,41 +3,32 @@
 module Voted
   extend ActiveSupport::Concern
 
+  def render_votable(votable, vote)
+    render json: {
+      votable_id: votable.id,
+      rating: votable.rating,
+      model: votable.class.name.underscore,
+      user_vote: user_vote(vote)
+    }
+  end
+
   def up
     votable = find_votable
     vote = Vote.up(current_user, votable)
-    respond_to do |format|
-      if vote.nil? || vote.save
-        format.json do
-          render json: { votable_id: votable.id,
-                         rating: votable.rating,
-                         model: votable.class.name.underscore,
-                         user_vote: user_vote(vote) }
-        end
-      else
-        format.json do
-          render json: vote.errors.messages, status: :unprocessable_entity
-        end
-      end
+    if vote.nil? || vote.save
+      render_votable(votable, vote)
+    else
+      render json: vote.errors.messages, status: :unprocessable_entity
     end
   end
 
   def down
     votable = find_votable
     vote = Vote.down(current_user, votable)
-    respond_to do |format|
-      if vote.nil? || vote.save
-        format.json do
-          render json: { votable_id: votable.id,
-                         rating: votable.rating,
-                         model: votable.class.name.underscore,
-                         user_vote: user_vote(vote) }
-        end
-      else
-        format.json do
-          render json: vote.errors.messages, status: :unprocessable_entity
-        end
-      end
+    if vote.nil? || vote.save
+      render_votable(votable, vote)
+    else
+      render json: vote.errors.messages, status: :unprocessable_entity
     end
   end
 
