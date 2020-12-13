@@ -10,7 +10,7 @@ shared_examples 'voted controller' do
     context 'Authenticated user' do
       before { login(user) }
       it 'likes' do
-        post :up, params: { id: votable.id }, format: :json
+        post :like, params: { id: votable.id }, format: :json
         result = {
           votable_id: votable.id,
           rating: 1,
@@ -22,8 +22,8 @@ shared_examples 'voted controller' do
       end
 
       it 'resets like' do
-        post :up, params: { id: votable.id }, format: :json
-        post :up, params: { id: votable.id }, format: :json
+        post :like, params: { id: votable.id }, format: :json
+        post :like, params: { id: votable.id }, format: :json
         result = {
           votable_id: votable.id,
           rating: 0,
@@ -38,7 +38,7 @@ shared_examples 'voted controller' do
     context 'Vote for own votable' do
       before { login(author) }
       it 'can not vote' do
-        post :up, params: { id: votable.id }, format: :json
+        post :like, params: { id: votable.id }, format: :json
         resp = JSON.parse(response.body)
         expect(resp['user'][0]).to eq "Author can't vote"
         expect(response).to have_http_status(422)
@@ -47,7 +47,7 @@ shared_examples 'voted controller' do
 
     context 'Unauthenticated user' do
       it 'can not dislikes likes' do
-        post :up, params: { id: votable.id }, format: :json
+        post :like, params: { id: votable.id }, format: :json
         resp = JSON.parse(response.body)
         expect(response).to have_http_status(401)
         expect(resp['error']).to eq 'You need to sign in or sign up before continuing.'
@@ -59,7 +59,7 @@ shared_examples 'voted controller' do
     context 'Authenticated user' do
       before { login(user) }
       it 'dislikes' do
-        post :down, params: { id: votable.id }, format: :json
+        post :dislike, params: { id: votable.id }, format: :json
         result = {
           votable_id: votable.id,
           rating: -1,
@@ -71,8 +71,8 @@ shared_examples 'voted controller' do
       end
 
       it 'resets dislike' do
-        post :down, params: { id: votable.id }, format: :json
-        post :down, params: { id: votable.id }, format: :json
+        post :dislike, params: { id: votable.id }, format: :json
+        post :dislike, params: { id: votable.id }, format: :json
         result = {
           votable_id: votable.id,
           rating: 0,
@@ -87,7 +87,7 @@ shared_examples 'voted controller' do
     context 'Vote for own votable' do
       before { login(author) }
       it 'can not vote' do
-        post :up, params: { id: votable.id }, format: :json
+        post :like, params: { id: votable.id }, format: :json
         resp = JSON.parse(response.body)
         expect(resp['user'][0]).to eq "Author can't vote"
         expect(response).to have_http_status(422)
@@ -96,7 +96,7 @@ shared_examples 'voted controller' do
 
     context 'Unauthenticated user' do
       it 'can not dislikes' do
-        post :down, params: { id: votable.id }, format: :json
+        post :dislike, params: { id: votable.id }, format: :json
         resp = JSON.parse(response.body)
         expect(response).to have_http_status(401)
         expect(resp['error']).to eq 'You need to sign in or sign up before continuing.'

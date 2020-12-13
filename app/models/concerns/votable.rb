@@ -8,6 +8,6 @@ module Votable
   end
 
   def rating
-    votes.sum(:value)
+    votes.sum(:click)
   end
 end

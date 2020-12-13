@@ -3,32 +3,41 @@
 module Voted
   extend ActiveSupport::Concern
 
-  def render_votable(votable, vote)
-    render json: {
-      votable_id: votable.id,
-      rating: votable.rating,
-      model: votable.class.name.underscore,
-      user_vote: user_vote(vote)
-    }
+  included do
+    before_action :find_votable, :find_vote, only: %i[like dislike]
   end
 
-  def up
-    votable = find_votable
-    vote = Vote.up(current_user, votable)
-    if vote.nil? || vote.save
-      render_votable(votable, vote)
+  def like
+    if @vote.present?
+      if @vote.like?
+        @vote.click = nil
+        @vote.destroy
+        render_votable
+      elsif @vote.dislike?
+        @vote.destroy
+        @vote = @votable.votes.create(user: current_user, click: :like)
+        render_votable
+      end
     else
-      render json: vote.errors.messages, status: :unprocessable_entity
+      @vote = @votable.votes.create(user: current_user, click: :like)
+      render_votable
     end
   end
 
-  def down
-    votable = find_votable
-    vote = Vote.down(current_user, votable)
-    if vote.nil? || vote.save
-      render_votable(votable, vote)
+  def dislike
+    if @vote.present?
+      if @vote.dislike?
+        @vote.click = nil
+        @vote.destroy
+        render_votable
+      elsif @vote.like?
+        @vote.destroy
+        @vote = @votable.votes.create(user: current_user, click: :dislike)
+        render_votable
+      end
     else
-      render json: vote.errors.messages, status: :unprocessable_entity
+      @vote = @votable.votes.create(user: current_user, click: :dislike)
+      render_votable
     end
   end
 
@@ -39,10 +48,19 @@ module Voted
   end
 
   def find_votable
-    model_klass.find(params['id'])
+    @votable = model_klass.find(params['id'])
   end
 
-  def user_vote(vote)
-    Vote.votes[vote&.value.to_s]
+  def find_vote
+    @vote = @votable.votes.find_by(user: current_user)
+  end
+
+  def render_votable
+    render json: {
+      votable_id: @votable.id,
+      rating: @votable.rating,
+      model: @vote.votable_type.underscore,
+      user_vote: @vote.click
+    }
   end
 end
