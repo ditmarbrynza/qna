@@ -8,37 +8,11 @@ module Voted
   end
 
   def like
-    if @vote.present?
-      if @vote.like?
-        @vote.click = nil
-        @vote.destroy
-        render_votable
-      elsif @vote.dislike?
-        @vote.destroy
-        @vote = @votable.votes.create(user: current_user, click: :like)
-        render_votable
-      end
-    else
-      @vote = @votable.votes.create(user: current_user, click: :like)
-      render_votable
-    end
+    click_processing(:like)
   end
 
   def dislike
-    if @vote.present?
-      if @vote.dislike?
-        @vote.click = nil
-        @vote.destroy
-        render_votable
-      elsif @vote.like?
-        @vote.destroy
-        @vote = @votable.votes.create(user: current_user, click: :dislike)
-        render_votable
-      end
-    else
-      @vote = @votable.votes.create(user: current_user, click: :dislike)
-      render_votable
-    end
+    click_processing(:dislike)
   end
 
   private
@@ -53,6 +27,28 @@ module Voted
 
   def find_vote
     @vote = @votable.votes.find_by(user: current_user)
+  end
+
+  def click_processing(click)
+    if !@vote.present?
+      create_vote(click)
+    elsif @vote.send("#{click}?")
+      @vote.click = nil
+      @vote.destroy
+      render_votable
+    else
+      @vote.destroy
+      create_vote(click)
+    end
+  end
+
+  def create_vote(click)
+    @vote = @votable.votes.new(user: current_user, click: click)
+    if @vote.save
+      render_votable
+    else
+      render json: @vote.errors.messages, status: :unprocessable_entity
+    end
   end
 
   def render_votable
