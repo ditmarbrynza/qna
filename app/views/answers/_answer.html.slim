@@ -2,6 +2,8 @@
   p 
     = answer.body
 
+  = render partial: 'votes/vote', locals: { votable: answer }
+
   .links
     p Links:
     ul

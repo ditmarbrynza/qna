@@ -9,6 +9,8 @@ RSpec.describe Answer, type: :model do
   it { should have_many(:links).dependent(:destroy) }
   it { should have_one(:award) }
 
+  it_behaves_like 'votable model'
+
   it { should accept_nested_attributes_for :links }
 
   it 'have many attached files' do
