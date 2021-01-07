@@ -1,4 +1,7 @@
 import consumer from "./consumer"
+import Answer from "../components/answer"
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 consumer.subscriptions.create("AnswerChannel", {
   connected() {
@@ -11,6 +14,12 @@ consumer.subscriptions.create("AnswerChannel", {
 
   received(data) {
     console.log("received", data)
-    // document.querySelector('.answers').append(data)
+    if(gon.current_user == data.user.id) { return null }
+
+    document.querySelector('.answers').append(document.createElement('div'))
+    ReactDOM.render(
+      <Answer data={data} />,
+      document.querySelector('.answers').lastChild
+    )
   }
 });

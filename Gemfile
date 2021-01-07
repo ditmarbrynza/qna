@@ -38,7 +38,7 @@ gem 'devise'
 
 gem 'font-awesome-rails'
 gem 'active_model_serializers', '~> 0.10.0', require: true
-
+gem 'gon'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

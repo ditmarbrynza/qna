@@ -12,6 +12,7 @@ module Qna
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
+    config.token_secret_signature_key = -> { Rails.application.credentials.read }
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
