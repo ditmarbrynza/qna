@@ -48,10 +48,6 @@ class AnswersController < ApplicationController
   def publish_answer
     return if @answer.errors.any?
 
-    gon.push({
-               current_user: current_user.id,
-               question_owner: @question.user.id
-             })
     ActionCable.server.broadcast('answers', AnswerSerializer.new(@answer).as_json)
   end
 

@@ -17,10 +17,8 @@ class QuestionsController < ApplicationController
     @answer.links.new
 
     gon.push(
-      {
-        current_user: current_user&.id,
-        question_owner: @question.user.id
-      }
+      current_user: current_user&.id,
+      question_owner: @question.user.id
     )
   end
 
