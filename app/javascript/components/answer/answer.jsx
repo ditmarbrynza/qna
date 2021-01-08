@@ -92,9 +92,9 @@ class Answer extends React.Component {
 
   render() {
     console.log("data", this.props.data)
-    const { body } = this.props.data
+    const { body, id } = this.props.data
     return(
-      <div>
+      <div className={`answer answer-id-${id}`}>
         <p>{body}</p>
         {this.renderLinks()}
         {this.renderFiles()}
