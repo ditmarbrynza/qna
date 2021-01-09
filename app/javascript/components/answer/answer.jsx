@@ -3,7 +3,7 @@ import axios from 'axios'
 import { getMeta } from '../../utils/getMeta'
 import Link from './components/link'
 import File from './components/file'
-
+import CommentForm from './components/commentForm'
 class Answer extends React.Component {
 
   links = () => {
@@ -91,11 +91,14 @@ class Answer extends React.Component {
     )
   }
 
-  renderComment = () => {
+  renderNewComment = () => {
+    const commentableType = 'answers'
+    const { id } = this.props.data
     return (
-      <div>
-        comment form
-      </div>
+      <CommentForm
+        commentableId={id}
+        commentableType={commentableType}
+      />
     )
   }
 
@@ -108,7 +111,8 @@ class Answer extends React.Component {
         {this.renderLinks()}
         {this.renderFiles()}
         {this.renderSetTheBest()}
-        {this.renderComment()}
+        {this.renderNewComment()}
+        <div className="comments"/>
       </div>
     )
   }
