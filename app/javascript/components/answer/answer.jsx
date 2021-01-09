@@ -76,6 +76,7 @@ class Answer extends React.Component {
   }
 
   renderSetTheBest = () => {
+    if (gon.question_owner != gon.current_user) { return null }
     const { id } = this.props.data
     const bestLink = `/answers/${id}/best`
 
@@ -90,6 +91,14 @@ class Answer extends React.Component {
     )
   }
 
+  renderComment = () => {
+    return (
+      <div>
+        comment form
+      </div>
+    )
+  }
+
   render() {
     console.log("data", this.props.data)
     const { body, id } = this.props.data
@@ -99,6 +108,7 @@ class Answer extends React.Component {
         {this.renderLinks()}
         {this.renderFiles()}
         {this.renderSetTheBest()}
+        {this.renderComment()}
       </div>
     )
   }

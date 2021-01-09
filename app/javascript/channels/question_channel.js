@@ -12,7 +12,12 @@ consumer.subscriptions.create("QuestionChannel", {
   },
 
   received(data) {
-    document.querySelector('.questions').append(document.createElement('p'))
+    const questions = document.querySelector('.questions')
+    
+    if (!questions) { return null }
+    
+    questions.append(document.createElement('p'))
+
     ReactDOM.render(
       <Question data={data} />,
       document.querySelector('.questions p:last-child')

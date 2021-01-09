@@ -2,6 +2,7 @@
 
 class Question < ApplicationRecord
   include Votable
+  include Commentable
   has_many :answers, -> { order(best: :desc) }, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
   has_one :award, dependent: :destroy

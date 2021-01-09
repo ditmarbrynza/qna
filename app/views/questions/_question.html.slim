@@ -9,19 +9,25 @@
     h3 Award:
     = image_tag url_for(@question.award.image)
 
-  = render partial: 'votes/vote', locals: { votable: @question }
-
-  .links
-    p Links:
-    ul
-      - @question.links.each do |link|
-          div id="link-#{link.id}"
-            .link
-              = link_to link.name, link.url
+  .links   
+    - @question.links.each do |link|
+        div id="link-#{link.id}"
+          .link
+            = link_to link.name, link.url
+          - if current_user&.author_of?(@question)
             = link_to 'Delete link', link_path(link), method: :delete, remote: true
 
+  - if @question.files.attached?
+    - @question.files.each do |file|
+        .attachment id="file-#{file.id}"
+          = link_to file.filename.to_s, url_for(file)
+          - if current_user&.author_of?(@question)
+            = link_to 'Delete file', file_path(file), method: :delete, remote: true
+  
+  = render partial: 'votes/vote', locals: { votable: @question }
+
   - if current_user&.author_of?(@question)
-    .question-controls
+    .q-controls
       = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: @question.id }
       = link_to 'Delete question', question_path(@question), method: :delete
 
@@ -43,9 +49,8 @@
               partial: 'links/link_fields'
 
         = f.submit 'Save'
-
-  - if @question.files.attached?
-    - @question.files.each do |file|
-        p.attachment id="file-#{file.id}"
-          = link_to file.filename.to_s, url_for(file)
-          = link_to 'Delete file', file_path(file), method: :delete, remote: true
+    
+  = render partial: 'comments/form', locals: { commentable: @question }
+  
+  .comments
+    = render @question.comments
