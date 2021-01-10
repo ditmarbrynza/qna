@@ -36,6 +36,8 @@ class commentForm extends React.Component {
   }
 
   render() {
+    if (!gon.current_user) { return null }
+
     return (
       <div className="new-comment">
         <form onSubmit={this.handleSubmit}>
