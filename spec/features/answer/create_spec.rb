@@ -36,7 +36,7 @@ feature 'User can write answer' do
     end
 
     context 'multiple sessions' do
-      scenario "answer appears on another user's page", js: true  do
+      scenario "answer appears on another user's page", js: true do
         Capybara.using_session('user') do
           sign_in(user)
           visit question_path(question)

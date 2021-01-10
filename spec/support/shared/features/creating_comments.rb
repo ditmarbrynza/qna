@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples_for 'creating comments' do
   describe 'Authenticated user', js: true do
     background do
