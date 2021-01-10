@@ -10,6 +10,7 @@ RSpec.describe Answer, type: :model do
   it { should have_one(:award) }
 
   it_behaves_like 'votable model'
+  it_behaves_like 'commentable model'
 
   it { should accept_nested_attributes_for :links }
 
