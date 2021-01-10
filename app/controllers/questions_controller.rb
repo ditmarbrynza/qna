@@ -18,7 +18,8 @@ class QuestionsController < ApplicationController
 
     gon.push(
       current_user: current_user&.id,
-      question_owner: @question.user.id
+      question_owner: @question.user.id,
+      question_id: @question.id
     )
   end
 

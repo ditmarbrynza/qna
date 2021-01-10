@@ -5,8 +5,7 @@ import Comment from "../components/comment"
 
 consumer.subscriptions.create("CommentChannel", {
   connected() {
-    console.log("connected")
-    this.perform("follow")
+    this.perform("follow" , { question_id: gon.question_id })
   },
 
   disconnected() {
@@ -14,8 +13,6 @@ consumer.subscriptions.create("CommentChannel", {
   },
 
   received(data) {
-    console.log("received", data)
-
     const commentableType = data.commentable_type
     const commentableId = data.commentable_id
   

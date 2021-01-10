@@ -9,6 +9,7 @@ consumer.subscriptions.create("QuestionChannel", {
   },
 
   disconnected() {
+    console.log("disconected")
   },
 
   received(data) {

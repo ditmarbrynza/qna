@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
     @comment.user_id = current_user.id
 
     if @comment.save
-      ActionCable.server.broadcast('comments', CommentSerializer.new(@comment).as_json)
+      publish_comment
     else
       render json: @comment.errors.messages, status: :unprocessable_entity
     end
@@ -28,5 +28,10 @@ class CommentsController < ApplicationController
 
   def comment_params
     params.require(:comment).permit(:text)
+  end
+
+  def publish_comment
+    question_id = @commentable.is_a?(Answer) ? @commentable.question.id : @commentable.id
+    ActionCable.server.broadcast("comments_for_question_#{question_id}", CommentSerializer.new(@comment).as_json)
   end
 end

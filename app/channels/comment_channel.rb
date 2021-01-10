@@ -1,15 +1,7 @@
 # frozen_string_literal: true
 
 class CommentChannel < ApplicationCable::Channel
-  def subscribed
-    stream_from 'comment_channel'
-  end
-
-  def unsubscribed
-    # Any cleanup needed when channel is unsubscribed
-  end
-
-  def follow
-    stream_from 'comments'
+  def follow(data)
+    stream_from "comments_for_question_#{data['question_id']}" if data['question_id'].present?
   end
 end

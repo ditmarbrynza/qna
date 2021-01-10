@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 
 consumer.subscriptions.create("AnswerChannel", {
   connected() {
-    this.perform("follow")
+    this.perform("follow" , { question_id: gon.question_id })
   },
 
   disconnected() {
