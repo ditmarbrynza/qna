@@ -41,3 +41,7 @@ $(document).on('turbolinks:load', function(){
 document.addEventListener('best:updated', function() {
   vote()
 });
+
+document.addEventListener('wsAnswer:added', function() {
+  vote()
+});

@@ -4,6 +4,7 @@ import { getMeta } from '../../utils/getMeta'
 import Link from './components/link'
 import File from './components/file'
 import CommentForm from './components/commentForm'
+import Votes from './components/votes'
 class Answer extends React.Component {
 
   links = () => {
@@ -78,7 +79,6 @@ class Answer extends React.Component {
   renderSetTheBest = () => {
     if (gon.question_owner != gon.current_user) { return null }
     const { id } = this.props.data
-    const bestLink = `/answers/${id}/best`
 
     return (
       <button 
@@ -102,8 +102,14 @@ class Answer extends React.Component {
     )
   }
 
+  renderVotes = () => {
+    const { id } = this.props.data
+    return (
+      <Votes votableId={id} />
+    )
+  }
+
   render() {
-    console.log("data", this.props.data)
     const { body, id } = this.props.data
     return(
       <div className={`answer answer-id-${id}`}>
@@ -111,6 +117,7 @@ class Answer extends React.Component {
         {this.renderLinks()}
         {this.renderFiles()}
         {this.renderSetTheBest()}
+        {this.renderVotes()}
         {this.renderNewComment()}
         <div className="comments"/>
       </div>

@@ -21,5 +21,7 @@ consumer.subscriptions.create("AnswerChannel", {
       <Answer data={data} />,
       document.querySelector('.answers').lastChild
     )
+    let event = new Event('wsAnswer:added')
+    document.dispatchEvent(event)
   }
 });
