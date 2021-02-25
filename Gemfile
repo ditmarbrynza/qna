@@ -39,6 +39,9 @@ gem 'devise'
 gem 'font-awesome-rails'
 gem 'active_model_serializers', '~> 0.10.0', require: true
 gem 'gon'
+gem 'omniauth', '~> 1.6', '>= 1.6.1'
+gem 'omniauth-github'
+gem 'omniauth-vkontakte'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -56,11 +59,13 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'rubocop', '~> 0.74.0', require: false
+  gem 'letter_opener'
 end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
+  gem 'capybara-email'
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'

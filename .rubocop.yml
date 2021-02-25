@@ -17,6 +17,7 @@ Metrics/BlockLength:
   Exclude:
     - ./spec/**/*_spec.rb
     - ./spec/**/*.rb
+    - ./config/environments/development.rb
 
 Metrics/MethodLength:
   Max: 30

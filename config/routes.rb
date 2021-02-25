@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   root to: 'questions#index'
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
 
   concern :votable do
     member do
@@ -28,6 +28,10 @@ Rails.application.routes.draw do
   resources :links, only: :destroy
 
   resources :awards, only: :index
+
+  resource :authorization, only: %i[new create] do
+    get 'email_confirmation/:confirmation_token', action: :email_confirmation, as: :email_confirmation
+  end
 
   mount ActionCable.server => '/cable'
 end
