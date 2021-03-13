@@ -8,10 +8,12 @@ class QuestionsController < ApplicationController
   after_action :publish_question, only: [:create]
 
   def index
+    authorize Question
     @questions = Question.all
   end
 
   def show
+    authorize Question
     @answer = Answer.new
     @answers = @question.answers
     @answer.links.new
@@ -24,12 +26,14 @@ class QuestionsController < ApplicationController
   end
 
   def new
+    authorize Question
     @question = Question.new
     @question.links.new
     @award = Award.new(question: @question)
   end
 
   def create
+    authorize Question
     @question = Question.new(question_params)
     @question.user = current_user
 
@@ -37,6 +41,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
+    authorize @question
     if current_user&.author_of?(@question)
       @question.update(question_params)
     else
@@ -45,6 +50,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
+    authorize @question
     if current_user&.author_of?(@question)
       @question.destroy
       redirect_to root_path, notice: 'Your question successfully deleted.'

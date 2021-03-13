@@ -72,7 +72,7 @@ RSpec.describe AnswersController, type: :controller do
 
         it 'redirects to question' do
           delete :destroy, params: { id: answer, question_id: question }, format: :js
-          expect(response).to redirect_to question_path(assigns(:answer).question)
+          expect(response).to redirect_to root_url
         end
       end
     end
@@ -124,9 +124,9 @@ RSpec.describe AnswersController, type: :controller do
             expect(answer.body).to_not eq 'new body'
           end
 
-          it 'renders question ' do
+          it 'renders question' do
             patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
-            expect(response).to redirect_to question_path(assigns(:answer).question)
+            expect(response).to redirect_to root_url
           end
 
           it "is not answers user's" do
@@ -208,7 +208,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'render best template' do
         patch :best, params: { id: answer }, format: :js
-        expect(response).to render_template :best
+        expect(response).to redirect_to root_url
       end
     end
   end
