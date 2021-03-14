@@ -72,7 +72,7 @@ RSpec.describe AnswersController, type: :controller do
 
         it 'redirects to question' do
           delete :destroy, params: { id: answer, question_id: question }, format: :js
-          expect(response).to redirect_to root_url
+          expect(response.status).to eq 403
         end
       end
     end
@@ -126,7 +126,7 @@ RSpec.describe AnswersController, type: :controller do
 
           it 'renders question' do
             patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
-            expect(response).to redirect_to root_url
+            expect(response.status).to eq 403
           end
 
           it "is not answers user's" do
@@ -208,7 +208,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'render best template' do
         patch :best, params: { id: answer }, format: :js
-        expect(response).to redirect_to root_url
+        expect(response.status).to eq 403
       end
     end
   end
