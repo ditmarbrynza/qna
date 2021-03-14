@@ -8,6 +8,6 @@ class FilePolicy < ApplicationPolicy
   end
 
   def destroy?
-    user == record.user
+    user.author_of?(record)
   end
 end

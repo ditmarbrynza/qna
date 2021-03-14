@@ -24,14 +24,14 @@ class QuestionPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin? || user == record.user
+    user.admin? || user.author_of?(record)
   end
 
   def destroy?
-    user.admin? || user == record.user
+    user.admin? || user.author_of?(record)
   end
 
   def best?
-    user == record.user
+    user.author_of?(record)
   end
 end
