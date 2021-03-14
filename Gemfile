@@ -42,7 +42,6 @@ gem 'gon'
 gem 'omniauth', '~> 1.6', '>= 1.6.1'
 gem 'omniauth-github'
 gem 'omniauth-vkontakte'
-gem 'cancancan'
 gem 'pundit'
 
 group :development, :test do
