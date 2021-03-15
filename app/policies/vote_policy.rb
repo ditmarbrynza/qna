@@ -10,4 +10,8 @@ class VotePolicy < ApplicationPolicy
   def vote?
     user.present? && !user.author_of?(record)
   end
+
+  def cancel_vote?
+    user.author_of?(record)
+  end
 end
