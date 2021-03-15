@@ -8,14 +8,13 @@ class ApplicationController < ActionController::Base
   private
 
   def user_not_authorized
-    if request_format == :html
-      flash[:alert] = exception.message
-      redirect_to root_path
-    else
-      respond_to do |format|
-        format.json { render json: ["You don't have permission to access on this server"], status: :forbidden }
-        format.js { render json: ["You don't have permission to access on this server"], status: :forbidden }
+    respond_to do |format|
+      format.html do
+        flash[:alert] = exception.message
+        redirect_to root_path
       end
+      format.json { render json: ["You don't have permission to access on this server"], status: :forbidden }
+      format.js { render json: ["You don't have permission to access on this server"], status: :forbidden }
     end
   end
 end
