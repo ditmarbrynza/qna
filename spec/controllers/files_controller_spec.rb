@@ -32,7 +32,7 @@ RSpec.describe FilesController, type: :controller do
 
         it 'render destroy' do
           delete :destroy, params: { id: file_parent.files.first }, format: :js
-          expect(response).to render_template :destroy
+          expect(response.status).to eq 403
         end
       end
     end

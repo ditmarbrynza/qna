@@ -9,12 +9,14 @@ class AnswersController < ApplicationController
   after_action :publish_answer, only: [:create]
 
   def create
+    authorize Answer
     @answer = @question.answers.create(answer_params)
     @answer.user = current_user
     @answer.save
   end
 
   def update
+    authorize @answer
     if current_user&.author_of?(@answer)
       @answer.update(answer_params)
     else
@@ -23,6 +25,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
+    authorize @answer
     if current_user&.author_of?(@answer)
       @answer.destroy
     else
@@ -32,6 +35,7 @@ class AnswersController < ApplicationController
 
   def best
     @question = @answer.question
+    authorize @question
     @answer.set_the_best if current_user.author_of?(@question)
   end
 

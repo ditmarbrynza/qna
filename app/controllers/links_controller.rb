@@ -5,6 +5,7 @@ class LinksController < ApplicationController
 
   def destroy
     @link = Link.find(params[:id])
-    @link.delete if current_user.author_of?(@link.linkable)
+    authorize @link.linkable, policy_class: LinkPolicy
+    @link.delete
   end
 end
