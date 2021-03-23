@@ -17,7 +17,7 @@ shared_examples_for 'Answer Question' do
 
   describe 'comment' do
     let(:comment) { comments.first }
-    let(:comment_response) { resource_responce['comments'].last }
+    let(:comment_response) { resource_responce['comments'].first }
 
     it 'returns list of comments' do
       expect(resource_responce['comments'].size).to eq 3
@@ -32,7 +32,7 @@ shared_examples_for 'Answer Question' do
 
   describe 'links' do
     let(:link) { links.first }
-    let(:link_response) { resource_responce['links'].last }
+    let(:link_response) { resource_responce['links'].first }
 
     it 'returns list of comments' do
       expect(resource_responce['links'].size).to eq 3
