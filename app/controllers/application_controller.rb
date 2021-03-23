@@ -3,11 +3,7 @@
 class ApplicationController < ActionController::Base
   include Pundit
 
-  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-
-  private
-
-  def user_not_authorized
+  rescue_from Pundit::NotAuthorizedError do |exception|
     respond_to do |format|
       format.html do
         flash[:alert] = exception.message
