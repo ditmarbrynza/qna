@@ -18,6 +18,7 @@ Metrics/BlockLength:
     - ./spec/**/*_spec.rb
     - ./spec/**/*.rb
     - ./config/environments/development.rb
+    - ./config/routes.rb
 
 Metrics/MethodLength:
   Max: 30
@@ -36,3 +37,5 @@ Bundler/OrderedGems:
 
 Metrics/AbcSize:
   Max: 20
+  Exclude:
+    - ./db/migrate/20210316211119_create_doorkeeper_tables.rb
