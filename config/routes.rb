@@ -21,6 +21,9 @@ Rails.application.routes.draw do
       end
       resources :answers do
         get :show, on: :collection
+        post :create
+        post :update
+        delete :destroy
       end
     end
   end

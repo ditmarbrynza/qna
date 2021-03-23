@@ -136,12 +136,12 @@ describe 'Questions API', type: :request do
 
         it 'saves a new question in the database' do
           expect do
-            post api_path, params: { question: params, access_token: access_token.token }
+            post api_path, params: { question: params, access_token: access_token.token }, headers: headers
           end.to change(Question, :count).by(1)
         end
 
         it 'returns 200' do
-          post api_path, params: { question: params, access_token: access_token.token }
+          post api_path, params: { question: params, access_token: access_token.token }, headers: headers
           expect(response).to be_successful
         end
       end
@@ -167,7 +167,7 @@ describe 'Questions API', type: :request do
 
         it 'does not save the question' do
           expect do
-            post api_path, params: { question: params, access_token: access_token.token }
+            post api_path, params: { question: params, access_token: access_token.token }, headers: headers
           end.to_not change(Question, :count)
         end
       end
@@ -206,7 +206,7 @@ describe 'Questions API', type: :request do
         end
 
         it 'changes question attributes' do
-          patch api_path, params: { question: params, access_token: access_token.token }
+          patch api_path, params: { question: params, access_token: access_token.token }, headers: headers
           question.reload
 
           expect(question.title).to eq 'new title'
@@ -214,7 +214,7 @@ describe 'Questions API', type: :request do
         end
 
         it 'returns 200' do
-          patch api_path, params: { question: params, access_token: access_token.token }
+          patch api_path, params: { question: params, access_token: access_token.token }, headers: headers
           expect(response).to be_successful
         end
 
@@ -237,7 +237,7 @@ describe 'Questions API', type: :request do
             }
           end
 
-          before { patch api_path, params: { question: params, access_token: access_token.token } }
+          before { patch api_path, params: { question: params, access_token: access_token.token }, headers: headers }
 
           it 'does not change question' do
             question.reload
@@ -245,6 +245,32 @@ describe 'Questions API', type: :request do
             expect(question.body).to eq question.body
           end
         end
+      end
+    end
+
+    context 'Unauthenticated user' do
+      let(:other_user) { create :user }
+      let(:params) do
+        {
+          user_id: other_user.id,
+          title: 'new title',
+          body: 'new body',
+          links_attributes: [
+            {
+              name: 'Google',
+              url: 'https://google.com'
+            },
+            {
+              name: 'Youtube',
+              url: 'https://youtube.com'
+            }
+          ]
+        }
+      end
+
+      it 'deletes the question' do
+        patch api_path, params: { question: params, access_token: access_token.token }, headers: headers
+        expect(JSON.parse(response.body).first).to eq "You don't have permission to access on this server"
       end
     end
   end
@@ -268,7 +294,21 @@ describe 'Questions API', type: :request do
       end
 
       it 'deletes the question' do
-        expect { delete api_path, params: { question: params, access_token: access_token.token } }.to change(Question, :count).by(-1)
+        expect { delete api_path, params: { question: params, access_token: access_token.token }, headers: headers }.to change(Question, :count).by(-1)
+      end
+    end
+
+    context 'Unauthenticated user' do
+      let(:other_user) { create :user }
+      let(:params) do
+        {
+          user_id: other_user.id
+        }
+      end
+
+      it 'deletes the question' do
+        delete api_path, params: { question: params, access_token: access_token.token }, headers: headers
+        expect(JSON.parse(response.body).first).to eq "You don't have permission to access on this server"
       end
     end
   end

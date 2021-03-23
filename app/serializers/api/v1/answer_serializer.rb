@@ -5,7 +5,7 @@ module Api
     class AnswerSerializer < ActiveModel::Serializer
       include Rails.application.routes.url_helpers
 
-      attributes %i[id question_id body created_at updated_at best files]
+      attributes %i[id question_id body created_at updated_at best files user_id]
       has_many :comments
       has_many :links
 
