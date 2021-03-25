@@ -43,6 +43,8 @@ gem 'omniauth', '~> 1.6', '>= 1.6.1'
 gem 'omniauth-github'
 gem 'omniauth-vkontakte'
 gem 'pundit'
+gem 'doorkeeper'
+gem 'oj'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
