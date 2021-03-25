@@ -43,7 +43,7 @@ describe 'Profiles API', type: :request do
     it_behaves_like 'API Authorizable'
 
     context 'authorized' do
-      let(:all) { create_list(:user, 3) }
+      let(:all) { create_list(:user, 3, admin: true) }
       let(:me) { all.first }
       let(:user) { all.last }
       let(:access_token) { create :access_token, resource_owner_id: me.id }
