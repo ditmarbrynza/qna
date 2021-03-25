@@ -16,8 +16,8 @@ shared_examples_for 'Answer Question' do
   end
 
   describe 'comment' do
-    let(:comment) { comments.first }
-    let(:comment_response) { resource_responce['comments'].first }
+    let(:comment) { resource.comments.min_by(&:created_at) }
+    let(:comment_response) { resource_responce['comments'].min_by { |item| item['created_at'] } }
 
     it 'returns list of comments' do
       expect(resource_responce['comments'].size).to eq 3
@@ -31,8 +31,8 @@ shared_examples_for 'Answer Question' do
   end
 
   describe 'links' do
-    let(:link) { links.first }
-    let(:link_response) { resource_responce['links'].first }
+    let(:link) { resource.links.min_by(&:created_at) }
+    let(:link_response) { resource_responce['links'].min_by { |item| item['created_at'] } }
 
     it 'returns list of comments' do
       expect(resource_responce['links'].size).to eq 3
