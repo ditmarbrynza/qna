@@ -3,7 +3,7 @@
 module Api
   module V1
     class BaseController < ApplicationController
-      skip_before_action :verify_authenticity_token
+      protect_from_forgery with: :null_session
       before_action :doorkeeper_authorize!
 
       private
