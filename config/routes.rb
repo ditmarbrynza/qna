@@ -53,6 +53,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :subscribers, only: %i[create destroy]
+
   resources :files, only: :destroy
 
   resources :links, only: :destroy
