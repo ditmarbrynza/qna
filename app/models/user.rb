@@ -10,6 +10,7 @@ class User < ApplicationRecord
   devise  :database_authenticatable, :registerable, :recoverable,
           :rememberable, :validatable, :omniauthable, omniauth_providers: %i[github vkontakte]
   has_many :authorizations, dependent: :destroy
+  has_many :subscribers, dependent: :destroy
 
   def author_of?(subject)
     id == subject.user_id
