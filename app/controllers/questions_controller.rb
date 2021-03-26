@@ -17,6 +17,7 @@ class QuestionsController < ApplicationController
     @answer = Answer.new
     @answers = @question.answers
     @answer.links.new
+    @subscriber = Subscriber.find_by(user_id: current_user, question_id: @question)
 
     gon.push(
       current_user: current_user&.id,
@@ -36,8 +37,10 @@ class QuestionsController < ApplicationController
     authorize Question
     @question = Question.new(question_params)
     @question.user = current_user
+    return unless @question.save
 
-    redirect_to @question, notice: 'Your question successfully created.' if @question.save
+    redirect_to @question, notice: 'Your question successfully created.'
+    @subscriber = current_user.subscribers.create(question_id: @question.id)
   end
 
   def update

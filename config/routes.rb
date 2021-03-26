@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  authenticate :user, ->(u) { u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
   use_doorkeeper
   root to: 'questions#index'
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
@@ -45,6 +51,8 @@ Rails.application.routes.draw do
         patch :best
       end
     end
+
+    resources :subscribers, only: [:create]
   end
 
   resources :files, only: :destroy
@@ -52,6 +60,8 @@ Rails.application.routes.draw do
   resources :links, only: :destroy
 
   resources :awards, only: :index
+
+  resources :subscribers, only: :destroy
 
   resource :authorization, only: %i[new create] do
     get 'email_confirmation/:confirmation_token', action: :email_confirmation, as: :email_confirmation
