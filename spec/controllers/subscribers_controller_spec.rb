@@ -14,27 +14,19 @@ RSpec.describe SubscribersController, type: :controller do
         it 'saves a new subscribtion in the database' do
           expect do
             post :create,
-                 params: { question_id: question, user_id: user },
+                 params: { question_id: question},
                  format: :js
           end.to change(Subscriber, :count).by(1)
         end
 
         it 'has a valid question' do
-          post :create, params: { question_id: question, user_id: user }, format: :js
+          post :create, params: { question_id: question }, format: :js
           expect(assigns(:subscriber).question).to eq question
         end
 
         it 'has a valid user' do
-          post :create, params: { question_id: question, user_id: user }, format: :js
+          post :create, params: { question_id: question }, format: :js
           expect(assigns(:subscriber).user).to eq user
-        end
-      end
-
-      context 'with invalid attributes' do
-        it 'does not save the subscribtion' do
-          expect do
-            post :create, params: { question_id: '', user_id: user }, format: :js
-          end.to_not change(Subscriber, :count)
         end
       end
     end
@@ -43,13 +35,13 @@ RSpec.describe SubscribersController, type: :controller do
       it 'does not save the subscribtion' do
         expect do
           post :create,
-               params: { question_id: question, user_id: user },
+               params: { question_id: question},
                format: :js
         end.to_not change(Subscriber, :count)
       end
 
       it 'redirects to sign in page' do
-        post :create, params: { question_id: '', user_id: user }, format: :js
+        post :create, params: { question_id: 100 }, format: :js
         expect(response).to be_unauthorized
       end
     end

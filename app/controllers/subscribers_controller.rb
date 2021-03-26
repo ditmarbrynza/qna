@@ -2,34 +2,38 @@
 
 class SubscribersController < ApplicationController
   before_action :authenticate_user!
+  before_action :find_question, only: [:create]
 
   def create
     authorize Subscriber
-    @subscriber = Subscriber.new(subscriber_params)
-    if @subscriber.save
-      head :ok
-    else
-      render json: @subscriber.errors.messages
-    end
+
+    @subscriber = current_user.subscribers.new(subscriber_params)
+    @subscriber.save
+
+    render partial: 'questions/subscribers'
   end
 
   def destroy
     find_subscriber
     authorize @subscriber
-    if @subscriber.delete
-      head :ok
-    else
-      render json: @subscriber.errors.messages
-    end
+    @subscriber.destroy
+    @subscriber = nil
+
+    render partial: 'questions/subscribers'
   end
 
   private
 
   def subscriber_params
-    params.permit(:user_id, :question_id)
+    params.permit(:question_id)
   end
 
   def find_subscriber
     @subscriber = Subscriber.find(params[:id])
+    @question = @subscriber.question
+  end
+
+  def find_question
+    @question = Question.find(params[:question_id])
   end
 end

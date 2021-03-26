@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 2021_03_25_213418) do
     t.text "body", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id"
+    t.integer "user_id"
     t.boolean "best", default: false
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
@@ -137,7 +137,7 @@ ActiveRecord::Schema.define(version: 2021_03_25_213418) do
     t.text "body", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id"
+    t.integer "user_id"
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
 
@@ -182,7 +182,7 @@ ActiveRecord::Schema.define(version: 2021_03_25_213418) do
   add_foreign_key "comments", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
-  add_foreign_key "questions", "users"
+  add_foreign_key "questions", "users", on_delete: :cascade
   add_foreign_key "subscribers", "questions"
   add_foreign_key "subscribers", "users"
   add_foreign_key "votes", "users"

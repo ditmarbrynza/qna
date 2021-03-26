@@ -51,15 +51,17 @@ Rails.application.routes.draw do
         patch :best
       end
     end
-  end
 
-  resource :subscribers, only: %i[create destroy]
+    resources :subscribers, only: [:create]
+  end
 
   resources :files, only: :destroy
 
   resources :links, only: :destroy
 
   resources :awards, only: :index
+
+  resources :subscribers, only: :destroy
 
   resource :authorization, only: %i[new create] do
     get 'email_confirmation/:confirmation_token', action: :email_confirmation, as: :email_confirmation
