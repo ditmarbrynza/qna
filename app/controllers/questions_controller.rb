@@ -40,7 +40,7 @@ class QuestionsController < ApplicationController
     return unless @question.save
 
     redirect_to @question, notice: 'Your question successfully created.'
-    @subscriber = Subscriber.create(question_id: @question.id, user_id: current_user.id)
+    @subscriber = current_user.subscribers.create(question_id: @question.id)
   end
 
   def update
