@@ -37,11 +37,10 @@ class QuestionsController < ApplicationController
     authorize Question
     @question = Question.new(question_params)
     @question.user = current_user
+    return unless @question.save
 
-    if @question.save
-      redirect_to @question, notice: 'Your question successfully created.'
-      @subscriber = Subscriber.create(question_id: @question.id, user_id: current_user.id)
-    end
+    redirect_to @question, notice: 'Your question successfully created.'
+    @subscriber = Subscriber.create(question_id: @question.id, user_id: current_user.id)
   end
 
   def update

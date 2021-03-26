@@ -14,7 +14,7 @@ RSpec.describe SubscribersController, type: :controller do
         it 'saves a new subscribtion in the database' do
           expect do
             post :create,
-                 params: { question_id: question},
+                 params: { question_id: question },
                  format: :js
           end.to change(Subscriber, :count).by(1)
         end
@@ -35,7 +35,7 @@ RSpec.describe SubscribersController, type: :controller do
       it 'does not save the subscribtion' do
         expect do
           post :create,
-               params: { question_id: question},
+               params: { question_id: question },
                format: :js
         end.to_not change(Subscriber, :count)
       end
