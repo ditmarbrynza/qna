@@ -30,3 +30,5 @@
 yarn-debug.log*
 .yarn-integrity
 /config/master.key
+/config/*.sphinx.conf
+db/sphinx
