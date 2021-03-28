@@ -82,6 +82,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'webdrivers', '~> 4.0'
   gem 'rspec-sidekiq'
+  gem 'database_cleaner-active_record'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
