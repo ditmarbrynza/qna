@@ -7,3 +7,5 @@ nav.navbar.navbar-light.bg-light
     - else
       = link_to "Sign in", new_user_session_path
       = link_to "Registration", new_user_registration_path
+  .search 
+    = render partial: 'search/search'
