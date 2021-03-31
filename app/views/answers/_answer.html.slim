@@ -1,4 +1,5 @@
 .answer class=["answer-id-#{answer.id}" " #{answer.best? ? 'the-best-answer' : ''}"]
+  = render 'users/user_container', resource: answer
   p 
     = answer.body
 
