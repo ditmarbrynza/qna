@@ -4,5 +4,6 @@ $(document).on('turbolinks:load', function() {
     let html = e.detail[0];
     $('.search-result').html("");
     $('.search-result').html(html.body.innerHTML);
+    $('.search-result').removeClass('hidden')
   })
 });
