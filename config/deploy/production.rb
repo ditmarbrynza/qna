@@ -7,6 +7,8 @@
 
 server '65.21.61.45', user: 'deployer', roles: %w[app db web], primary: true
 set :rails_env, :production
+set :init_system, :systemd
+set :service_unit_name, 'sidekiq.service'
 
 set :ssh_options,
     keys: %w[/home/ditmar/.ssh/id_rsa],
