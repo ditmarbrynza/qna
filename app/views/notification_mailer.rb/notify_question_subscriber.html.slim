@@ -1,6 +1,5 @@
 p 
-  b You hava new answer in subscrebed question
-
-p = @question.title
-
-p = @answer.body
+  b Your question has a new answer!
+  = link_to question.title, question
+p 
+  = @answer.body
