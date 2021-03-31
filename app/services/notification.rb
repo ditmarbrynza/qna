@@ -9,3 +9,8 @@ module Services
     end
   end
 end
+
+
+User.joins(:subscribers).where(subscribers: { question: question }).find_each do |user|
+  puts user.email
+end
