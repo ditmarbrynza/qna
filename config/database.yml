@@ -16,3 +16,7 @@ development:
 test:
   <<: *default
   database: tn_qna_test
+
+production:
+  <<: *default
+  database: tn_qna_production
