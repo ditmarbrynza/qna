@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 describe 'Questions API', type: :request do
+  include ActionDispatch::TestProcess::FixtureFile
+  
   let(:headers) { { 'ACCEPT': 'application/json' } }
 
   describe 'GET /api/v1/questions' do

@@ -8,6 +8,21 @@ module Votable
   end
 
   def rating
-    votes.sum(:click)
+    sum = 0
+    votes.each do |vote|
+      sum += convert_click(vote.click)
+    end
+    sum
+  end
+
+  private
+
+  def convert_click(click)
+    case click
+    when 'like'
+      1
+    when 'dislike'
+      -1
+    end
   end
 end
