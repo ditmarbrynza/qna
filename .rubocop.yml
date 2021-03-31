@@ -6,6 +6,8 @@ AllCops:
     - db/schema.rb
     - node_modules/**/*
     - vendor/bundle/**/*
+    - ./db/migrate/20210316211119_create_doorkeeper_tables.rb
+    - ./db/migrate/20210331011811_add_service_name_to_active_storage_blobs.active_storage.rb
 
 Metrics/LineLength:
   Max: 180
@@ -37,5 +39,3 @@ Bundler/OrderedGems:
 
 Metrics/AbcSize:
   Max: 20
-  Exclude:
-    - ./db/migrate/20210316211119_create_doorkeeper_tables.rb

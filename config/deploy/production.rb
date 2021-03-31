@@ -8,9 +8,8 @@
 server '65.21.61.45', user: 'deployer', roles: %w[app db web], primary: true
 set :rails_env, :production
 
-set :ssh_options, {
-  keys: %w[/home/ditmar/.ssh/id_rsa],
-  forward_agent: true,
-  auth_methods: %w[publickey password],
-  port: 2224
-}
+set :ssh_options,
+    keys: %w[/home/ditmar/.ssh/id_rsa],
+    forward_agent: true,
+    auth_methods: %w[publickey password],
+    port: 2224

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Award, type: :model do
   include ActionDispatch::TestProcess::FixtureFile
-  
+
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
 

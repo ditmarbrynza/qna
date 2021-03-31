@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe FilePolicy, type: :policy do
   include ActionDispatch::TestProcess::FixtureFile
-  
+
   let(:user) { create :user }
   let(:file) { fixture_file_upload("#{Rails.root}/spec/rails_helper.rb", 'text/plain') }
   let(:file_parent) { create(:question, user: user, files: [file]) }
