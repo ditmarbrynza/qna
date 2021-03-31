@@ -2,7 +2,7 @@
 
 module Services
   class DailyDigest
-    def send_digest
+    def self.send_digest
       User.find_each(batch_size: 500) do |user|
         DailyDigestMailer.digest(user).deliver_later
       end
