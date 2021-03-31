@@ -1,5 +1,5 @@
 p 
   b Your question has a new answer!
-  = link_to question.title, question
+  = link_to @question.title, @question
 p 
-  = @answer.body
+  = @question.answer.body
