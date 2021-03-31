@@ -3,6 +3,9 @@
 class Answer < ApplicationRecord
   include Votable
   include Commentable
+
+  after_create :notify_question_subscribers
+
   belongs_to :question
   belongs_to :user
   has_many_attached :files
@@ -19,5 +22,9 @@ class Answer < ApplicationRecord
       update!(best: true)
       update!(award: question.award) if question.award
     end
+  end
+
+  def notify_question_subscribers
+    NotificationJob.perform_later(question)
   end
 end

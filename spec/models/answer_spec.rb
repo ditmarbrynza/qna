@@ -39,4 +39,13 @@ RSpec.describe Answer, type: :model do
       it { expect(other_answer.reload).to_not be_best }
     end
   end
+
+  describe 'notification' do
+    let(:answer) { build(:answer) }
+
+    it 'calls NotificationJob' do
+      expect(NotificationJob).to receive(:perform_later).with(answer.question)
+      answer.save!
+    end
+  end
 end
