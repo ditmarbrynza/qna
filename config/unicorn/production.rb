@@ -35,7 +35,7 @@ before_fork do |server, _worker|
     begin
       Process.kill('QUIT', File.read(old_pid).to_i)
     rescue Errno::ENOENT, Errno::ESRCH
-      # someone else did our job for us
+      puts "[#{self.class}] exeption"
     end
   end
 end
