@@ -39,7 +39,7 @@ gem 'devise'
 gem 'font-awesome-rails'
 gem 'active_model_serializers', '~> 0.10.0', require: true
 gem 'gon'
-gem 'omniauth', '~> 1.6', '>= 1.6.1'
+gem 'omniauth', '~> 1.9'
 gem 'omniauth-github'
 gem 'omniauth-vkontakte'
 gem 'pundit'
